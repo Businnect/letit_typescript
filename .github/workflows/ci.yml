@@ -1,0 +1,41 @@
+name: TypeScript CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Build package
+        run: npm run build
+
+      - name: Run live API tests
+        if: ${{ secrets.LETIT_API_TOKEN != '' }}
+        env:
+          LETIT_API_TOKEN: ${{ secrets.LETIT_API_TOKEN }}
+          LETIT_BASE_URL: https://api.letit.com
+        run: npm run test:live
