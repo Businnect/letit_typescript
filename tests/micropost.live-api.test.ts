@@ -27,4 +27,21 @@ describe("live API micropost", () => {
 
     removeValue(createdMicropostIds, response.public_id);
   });
+
+  test("edits micropost vote", async () => {
+    const response = await client.micropost.create({
+      body: uniqueName("Vote toggle test body"),
+      title: uniqueName("Vote toggle test title"),
+      postType: "TEXT",
+    });
+
+    createdMicropostIds.push(response.public_id);
+
+    const vote = await client.micropost.vote(response.public_id);
+    expect(typeof vote.user_voted).toBe("boolean");
+
+    await client.micropost.delete(response.public_id);
+
+    removeValue(createdMicropostIds, response.public_id);
+  });
 });

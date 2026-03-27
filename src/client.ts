@@ -1,3 +1,4 @@
+import { BlogResource } from "./blog";
 import { JobResource } from "./job";
 import { MicropostResource } from "./micropost";
 
@@ -56,6 +57,7 @@ export class ClientContext {
 export class LetitClient {
   readonly baseUrl: string;
   readonly apiKey: string;
+  readonly blog: BlogResource;
   readonly micropost: MicropostResource;
   readonly job: JobResource;
 
@@ -65,6 +67,7 @@ export class LetitClient {
     this.#context = new ClientContext(options);
     this.baseUrl = this.#context.baseUrl;
     this.apiKey = this.#context.apiKey;
+    this.blog = new BlogResource(this.#context);
     this.micropost = new MicropostResource(this.#context);
     this.job = new JobResource(this.#context);
   }

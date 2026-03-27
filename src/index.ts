@@ -6,6 +6,13 @@ export {
   type LetitClientOptions,
 } from "./client";
 export {
+  BlogResource,
+  type AdminBlog,
+  type GetAdminBlogResponse,
+  type ListAdminBlogsRequest,
+  type ListAdminBlogsResponse,
+} from "./blog";
+export {
   JobResource,
   type CreateJobWithCompanyRequest,
   type JobLocation,
@@ -15,6 +22,7 @@ export {
   MicropostResource,
   type CreateMicropostRequest,
   type CreatedWithPublicIdAndLink,
+  type EditedMicropostVote,
   type PostType,
 } from "./micropost";
 export type { FilePayload } from "./shared";

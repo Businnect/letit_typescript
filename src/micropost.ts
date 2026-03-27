@@ -6,6 +6,10 @@ export interface CreatedWithPublicIdAndLink {
   link: string;
 }
 
+export interface EditedMicropostVote {
+  user_voted: boolean;
+}
+
 export type PostType = "TEXT" | "MEDIA";
 
 export interface CreateMicropostRequest {
@@ -52,5 +56,14 @@ export class MicropostResource {
       method: "DELETE",
       body: JSON.stringify({ public_id: publicId }),
     });
+  }
+
+  async vote(publicId: string): Promise<EditedMicropostVote> {
+    const body = await this.#context.send("/api/v1/client/micropost/vote", {
+      method: "PATCH",
+      body: JSON.stringify({ public_id: publicId }),
+    });
+
+    return JSON.parse(body) as EditedMicropostVote;
   }
 }

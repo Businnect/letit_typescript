@@ -12,6 +12,7 @@ For detailed information on the underlying REST API, endpoints, and authenticati
 
 - Job Management: Create job postings with company metadata, application details, and logo uploads.
 - Micropost System: Create text or media microposts with multipart file support.
+- Admin Blog Listing: List public admin blogs with optional filters and pagination.
 - Typed Client API: Use typed request and response contracts for client, job, and micropost flows.
 - Error Handling: Non-success responses throw `LetitApiError` with HTTP status and raw response body.
 
@@ -89,6 +90,65 @@ const response = await client.micropost.create({
 });
 
 console.log(`Post created with ID: ${response.public_id}`);
+```
+
+### Edit a Micropost Vote
+
+Toggle your vote for a micropost using its public ID.
+
+```ts
+import { createClient } from "letit";
+
+const client = createClient({
+	apiKey: "your-api-token",
+	baseUrl: "https://api.letit.com",
+});
+
+const vote = await client.micropost.vote("public-id-of-micropost");
+console.log(`Current vote state: ${vote.user_voted}`);
+```
+
+### List Public Admin Blogs
+
+Retrieve public admin blogs and apply optional filters such as title, category, and pagination.
+
+```ts
+import { createClient } from "letit";
+
+const client = createClient({
+	apiKey: "your-api-token",
+	baseUrl: "https://api.letit.com",
+});
+
+const blogs = await client.blog.list({
+	title: "release",
+	category: "ANNOUNCEMENT",
+	skip: 0,
+	limit: 10,
+});
+
+console.log(`Loaded ${blogs.list.length} blogs out of ${blogs.total_list}`);
+```
+
+### Get Public Admin Blog By Slug
+
+Retrieve a single public admin blog by slug. The API may return `null` if no article matches.
+
+```ts
+import { createClient } from "letit";
+
+const client = createClient({
+	apiKey: "your-api-token",
+	baseUrl: "https://api.letit.com",
+});
+
+const article = await client.blog.get("my-blog-slug");
+
+if (!article) {
+	console.log("No article found for this slug");
+} else {
+	console.log(`Found article: ${article.title}`);
+}
 ```
 
 ## Environment Variables
