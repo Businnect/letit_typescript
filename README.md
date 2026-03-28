@@ -177,3 +177,11 @@ npm run test:live
 ```bash
 LETIT_API_TOKEN="your-token" npm run test:live
 ```
+
+## How to publish
+
+```bash
+npm login
+npm run build
+npm publish
+```
